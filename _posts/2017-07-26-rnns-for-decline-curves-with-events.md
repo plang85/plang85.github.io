@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Recurrent neural networks for decline curves"
-date:   2017-07-17
+date:   2017-07-26
 categories: machine learning
 ---
 modelling events
