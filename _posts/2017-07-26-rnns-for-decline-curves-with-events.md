@@ -7,4 +7,4 @@ categories: machine learning
 ---
 
 To model decline curves which reflect events
-![Refracking event]({{ site.url }}/assets/rnndeclcurves00_exp_time_two_stages.png)
+![Refracking event]({{ site.url }}/assets/rnndeclcurves00_exp_time_two_stages.gif)
