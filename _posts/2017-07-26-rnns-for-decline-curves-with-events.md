@@ -23,3 +23,47 @@ we can produce these artificial production profiles with a function such as
 Let's not dwell over the details of this function. Suffice it to say that it provides means to generate above production profiles, whith two stages, each with its own exponent that controls the decline. For convenience we'll use this function to generate training data for us. The model we are going to use is defined as
 
 <script src="https://gist.github.com/plang85/d0dab63233acc7775119283230c175c6.js"></script>
+
+Our little network layout and some convenience indices
+
+<script src="https://gist.github.com/plang85/8ab00751dbc7a66cc3e477326392cd69.js"></script>
+
+Our training data setup and matrices
+
+<script src="https://gist.github.com/plang85/23a8acee4ae83c87b6b831e3942b270e.js"></script>
+
+Filling the arrays
+
+<script src="https://gist.github.com/plang85/2fbeff720b23e6141887fbbc508baf28.js"></script>
+
+Scaling, creates an implicit link with the activation function chosed for the dense operation on all LSTM units per time step
+
+<script src="https://gist.github.com/plang85/ad9f1bd7ba7dda5ddf6fb2874c85d35b.js"></script>
+
+Train the model, and instrument some hack to load a trained model for future quick predictions like you need when preparing graphs for a blog post or sth
+
+<script src="https://gist.github.com/plang85/c7d8f7969920d53f7092e07d2bd6f6ac.js"></script>
+
+You should see some
+
+```
+1960/1960 [==============================] - 3s - loss: 0.0133 - val_loss: 0.0101
+Epoch 2/10
+1960/1960 [==============================] - 2s - loss: 0.0094 - val_loss: 0.0087
+Epoch 3/10
+1960/1960 [==============================] - 2s - loss: 0.0084 - val_loss: 0.0077
+Epoch 4/10
+1960/1960 [==============================] - 2s - loss: 0.0074 - val_loss: 0.0065
+Epoch 5/10
+1960/1960 [==============================] - 2s - loss: 0.0058 - val_loss: 0.0045
+Epoch 6/10
+1960/1960 [==============================] - 2s - loss: 0.0035 - val_loss: 0.0023
+Epoch 7/10
+1960/1960 [==============================] - 2s - loss: 0.0017 - val_loss: 0.0012
+Epoch 8/10
+1960/1960 [==============================] - 2s - loss: 9.4538e-04 - val_loss: 7.1189e-04
+Epoch 9/10
+1960/1960 [==============================] - 2s - loss: 6.4418e-04 - val_loss: 5.3728e-04
+Epoch 10/10
+1960/1960 [==============================] - 2s - loss: 5.0730e-04 - val_loss: 4.3987e-04
+```
