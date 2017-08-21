@@ -14,29 +14,8 @@ Shale wells are prime candidates for decline curve modelling. Refracking of a sh
 
 After importing some modules
 
-```python
-import numpy as np
-import keras.models as kem
-import keras.layers as kel
-import sklearn.preprocessing as preproc
-```
+<script src="https://gist.github.com/plang85/5b63fbd837b608ac3e50583ac2de1b63.js"></script>
 
 we can produce these artificial production profiles with a function such as
 
-```python
-def calc_exponential_decline(p0, exp, time):
-    return p0 * np.exp(-exp * time)
-
-def calc_two_stage_decline(p0, exp_stage_zero, exp_stage_one, time_max, time_next_stage, time_min=0., 
-  production_jumpfactor=4., num=50, noise=0.1, noise_mean=1.):
-    time = np.linspace(time_min, time_max, num)
-    stage_one = np.where(time > time_next_stage)    
-    production = calc_exponential_decline(p0, exp_stage_zero, time) * np.random.normal(noise_mean, noise, time.shape) 
-    time_stage_one_relative = np.linspace(time_min, time_max-time_next_stage, len(time[stage_one]))
-    production[stage_one] = calc_exponential_decline(production[stage_one][0] + p0/production_jumpfactor, exp_stage_one, 
-      time_stage_one_relative) * np.random.normal(noise_mean, noise*2., time_stage_one_relative.shape)
-    stage = np.zeros_like(time)
-    stage[stage_one] = 1.
-    production[production < 0.] = 0.
-    return time, production, stage
-```
+<script src="https://gist.github.com/plang85/845141802581bbad8117ade85b490883.js"></script>
