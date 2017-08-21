@@ -6,6 +6,8 @@ date:   2017-07-26
 categories: machine-learning neural-networks recurrent decline-curves fracking
 ---
 
+STILL UNDER CONSTRUCTION
+
 Decline curve modelling is probably one of the least challenging problems to throw at neural networks these days. Since I'm a sucker for low hanging fruit, here goes a short write-up of a proof of concept implementation I recently demoed at a seminar. Proof of concept implementations are great since we don't have to put up with users and/or real data.
 
 Shale wells are prime candidates for decline curve modelling. Refracking of a shale well, however, breaks the underlying assumption of decline curves, which is that the first order controls that governed the production history may not change during the forecast period. Let's assume we have production profiles like this, which we consider representative
@@ -36,6 +38,11 @@ Filling the arrays
 
 <script src="https://gist.github.com/plang85/2fbeff720b23e6141887fbbc508baf28.js"></script>
 
+and produces this
+
+![Training data]({{ site.url }}/assets/training_data.svg)
+
+
 Scaling, creates an implicit link with the activation function chosed for the dense operation on all LSTM units per time step
 
 <script src="https://gist.github.com/plang85/ad9f1bd7ba7dda5ddf6fb2874c85d35b.js"></script>
@@ -44,7 +51,7 @@ Train the model, and instrument some hack to load a trained model for future qui
 
 <script src="https://gist.github.com/plang85/c7d8f7969920d53f7092e07d2bd6f6ac.js"></script>
 
-You should see some
+You should see something along these lines
 
 ```
 1960/1960 [==============================] - 3s - loss: 0.0133 - val_loss: 0.0101
@@ -67,3 +74,31 @@ Epoch 9/10
 Epoch 10/10
 1960/1960 [==============================] - 2s - loss: 5.0730e-04 - val_loss: 4.3987e-04
 ```
+where a continuous residual reduction of three orders of magnitude indicates a well behaved model, and indeed our function generated above should be something that is easily regressed against.
+
+We can now use our model for prediction
+
+<script src="https://gist.github.com/plang85/8722b3860b261a64816d40188193822b.js"></script>
+
+upon inspection of the predicted target array in the stdout instruction we see the predicted sequence
+
+```
+[-39.26998901  41.88949966  38.46153259  33.63489151  28.81029129
+  25.71617889  22.57770538  19.67162323  16.9606514   14.97911167
+  13.07455444  11.59985352  10.24969101   9.04060364   7.96830654
+   7.02176762   6.18764973   5.45265293  16.6064167   15.20786476
+  13.66429615  12.14694881  10.71009541   9.40864754   8.25721645
+   7.25116396   6.3779912    5.62249804   4.96940517   4.40454197
+   3.91531825   3.49083686   3.12173867   2.80009866   2.51921129
+   2.27336454   2.05775905   1.86830044   1.70152593   1.55444443
+   1.4245491    1.30965495   1.20788932   1.11762822   1.03748643
+   0.96625328   0.90285933   0.8464036    0.79607713   0.75117487]
+```
+
+where the first entry is near out `NA` value, which reflects the way we set up our training sequences. This can now be plotted to illustrate the prediction based on the eight historic data points.
+
+![Prediction]({{ site.url }}/assets/prediction_example.svg)
+
+We can visually inspect what the above value for loss on the validation set looks like
+
+![Prediction vs reference]({{ site.url }}/assets/prediction_reference_example.svg)
