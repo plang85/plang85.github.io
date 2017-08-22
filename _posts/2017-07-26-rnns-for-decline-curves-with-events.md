@@ -1,16 +1,16 @@
 ---
 layout: post
-title:  "Decline curves using recurrent neural networks"
-subtitle:  "An approach to modelling events"
+title:  "Decline curve modeling using recurrent neural networks"
+subtitle:  "An approach to modeling events"
 date:   2017-07-26
 categories: machine-learning neural-networks recurrent decline-curves fracking
 ---
 
 :construction: code and figures complete, text missing :construction:
 
-Decline curve modelling is arguably one of the least challenging problems to throw at neural networks these days. Since I'm all in for low hanging fruit, here goes a short write-up of a proof of concept implementation I recently demoed at a seminar. Proof of concept implementations are great since we don't have to put up with users and/or real data.
+Decline curve modeling is arguably one of the least challenging problems to throw at neural networks these days. Since I'm all in for low hanging fruit, here goes a short write-up of a proof of concept implementation I recently demoed at a seminar. Proof of concept implementations are great since we don't have to put up with users and/or real data.
 
-Shale wells are prime candidates for decline curve modelling. Refracking of a shale well, however, breaks the underlying assumption of decline curve modelling: first order controls which govern the production history may not change during the forecast period. Let's assume we have a set of production profiles like this, which we know for a fact to be representative:
+Shale wells are prime candidates for decline curve modeling. Refracking of a shale well, however, breaks the underlying assumption of decline curve modeling: first order controls which govern the production history may not change during the forecast period. Let's assume we have a set of production profiles like this, which we know for a fact to be representative:
 
 ![Refracking event]({{ site.url }}/assets/profile_example.svg)
 *An artificial production history with stage information (binary array here). We'll use profiles like these to train our network.*
@@ -50,12 +50,12 @@ and produces this
 *The generated training data. Not shown are the corresponding stage arrays.*
 
 ![NA encoding 1]({{ site.url }}/assets/seq010_data.svg)
-*Illustration of `NA` encoding in a sequence in our feature array.*
+*Illustration of `na` encoding in a sequence in our feature array.*
 
 ![NA encoding 2]({{ site.url }}/assets/seq030_data.svg)
-*Illustration of `NA` encoding in a sample in our feature array, for a later sequence of the same profile.*
+*Illustration of `na` encoding in a sample in our feature array, for a later sequence of the same profile.*
 
-Scaling, creates an implicit link with the activation function chosed for the dense operation on all LSTM units per time step
+It is good practice to normalize the feature arrays - this keeps the weights of the input layers around unity and aids convergence and numerical/FP stability. It is required to normalize the target arrays for a bounded activation in the output layer, like the `sigmoid` function we use. Scaling thus creates an implicit link with this activation. The scalers available in `sklearn.preprocessing` require a two-dimensional view of the underlying values, with samples as rows and each feature/target in its own column, so this view is exactly what we're gonna provide by flattening the time step dimension of our arrays:
 
 <script src="https://gist.github.com/plang85/ad9f1bd7ba7dda5ddf6fb2874c85d35b.js"></script>
 
@@ -105,7 +105,7 @@ upon inspection of the predicted target array in the stdout instruction we see t
    0.96625328   0.90285933   0.8464036    0.79607713   0.75117487]
 ```
 
-where the first entry is near out `NA` value, which reflects the way we set up our training sequences. This can now be plotted to illustrate the prediction based on the eight historic data points.
+where the first entry is near out `na` value, which reflects the way we set up our training sequences. This can now be plotted to illustrate the prediction based on the eight historic data points.
 
 ![Prediction]({{ site.url }}/assets/prediction_example.svg)
 *The predicion of our trained network given an initial production history.*
