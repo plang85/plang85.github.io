@@ -6,23 +6,34 @@ date:   2017-07-26
 categories: machine-learning neural-networks recurrent decline-curves fracking
 ---
 
-:construcion: STILL UNDER CONSTRUCTION (code complete) :construcion: 
+:construction: code complete, text and some figures missing :construction:
 
-Decline curve modelling is probably one of the least challenging problems to throw at neural networks these days. Since I'm a sucker for low hanging fruit, here goes a short write-up of a proof of concept implementation I recently demoed at a seminar. Proof of concept implementations are great since we don't have to put up with users and/or real data.
+Decline curve modelling is arguably one of the least challenging problems to throw at neural networks these days. 
+Since I'm a sucker for low hanging fruit, here goes a short write-up of a proof of concept implementation I recently demoed at a seminar. 
+Proof of concept implementations are great since we don't have to put up with users and/or real data.
 
-Shale wells are prime candidates for decline curve modelling. Refracking of a shale well, however, breaks the underlying assumption of decline curve modelling: first order controls which govern the production history may not change during the forecast period. Let's assume we have a set of production profiles like this, which we know for a fact to be representative:
+Shale wells are prime candidates for decline curve modelling. Refracking of a shale well, however, breaks the underlying assumption of 
+decline curve modelling: first order controls which govern the production history may not change during the forecast period. 
+Let's assume we have a set of production profiles like this, which we know for a fact to be representative:
 
 ![Refracking event]({{ site.url }}/assets/profile_example.svg)
 
-We see two stages, zero and one, where the stage transition indicates the point in time of refracking. This post is about predicting the production profile given some initial production data and the planned time of refrecking, which should allow for comparisons as to the economically most sensible point for refracturing, for example. We'll be moving through this rather swiftly, without much regard for Python or Keras fundamentals (yes, naturally we'll be using Keras here). Let's get to it then - we'll start with the import of some of the usual suspects:
+We see two stages, zero and one, where the stage transition indicates the point in time of refracking. 
+This post is about predicting the production profile given some initial production data and the planned 
+time of refrecking, which should allow for comparisons as to the economically most sensible point for refracturing, 
+for example. We'll be moving through this rather swiftly, without much regard for Python or Keras fundamentals 
+(yes, naturally we'll be using Keras here). Let's get to it then - we'll start with the import of some of the usual suspects:
 
 <script src="https://gist.github.com/plang85/5b63fbd837b608ac3e50583ac2de1b63.js"></script>
 
-where we also define a file name under which we'll save the trained model for fast predicitons. Next we define a function to produce a production profile like the one above:
+where we also define a file name under which we'll save the trained model for fast predicitons, like when you're 
+making figures for a blog post. Next we define a function to produce a production profile like the one above:
 
 <script src="https://gist.github.com/plang85/845141802581bbad8117ade85b490883.js"></script>
 
-Let's not dwell over the details of this function. Suffice it to say that it provides means to generate above production profiles, whith two stages, each with its own exponent that controls the decline. For convenience we'll use this function to generate training data for us. The model we are going to use is defined by
+Let's not dwell over the details of this function. Suffice it to say that it provides means to generate above 
+production profiles, whith two stages, each with its own exponent that controls the decline. For convenience 
+we'll use this function to generate training data for us. The model we are going to use is defined by
 
 <script src="https://gist.github.com/plang85/d0dab63233acc7775119283230c175c6.js"></script>
 
