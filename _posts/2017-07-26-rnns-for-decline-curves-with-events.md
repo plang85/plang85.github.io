@@ -6,7 +6,7 @@ date:   2017-07-26
 categories: machine-learning neural-networks recurrent decline-curves fracking
 ---
 
-:construction: code complete, text and some figures missing :construction:
+:construction: code complete, text and some auxilliary figures missing :construction:
 
 Decline curve modelling is arguably one of the least challenging problems to throw at neural networks these days. 
 Since I'm a sucker for low hanging fruit, here goes a short write-up of a proof of concept implementation I recently demoed at a seminar. 
@@ -17,6 +17,7 @@ decline curve modelling: first order controls which govern the production histor
 Let's assume we have a set of production profiles like this, which we know for a fact to be representative:
 
 ![Refracking event]({{ site.url }}/assets/profile_example.svg)
+*An artificial production history with stage information (binary array here). We'll used profiles like these to train our network.*
 
 We see two stages, zero and one, where the stage transition indicates the point in time of refracking. 
 This post is about predicting the production profile given some initial production data and the planned 
@@ -32,16 +33,19 @@ making figures for a blog post. Next we define a function to produce a productio
 <script src="https://gist.github.com/plang85/845141802581bbad8117ade85b490883.js"></script>
 
 Let's not dwell over the details of this function. Suffice it to say that it provides means to generate above 
-production profiles, whith two stages, each with its own exponent that controls the decline. For convenience 
+production profiles, whith two stages of different exponents, and some Gaussian noise. For convenience 
 we'll use this function to generate training data for us. The model we are going to use is defined by
 
 <script src="https://gist.github.com/plang85/d0dab63233acc7775119283230c175c6.js"></script>
 
-Our little network layout and some convenience indices
+where `kel.TimeDistributed(kel.Dense(num_targets))` forms a dense operation on the outputs for a single time
+step from all units. Let's be explicit about the layout of our little network and some convenience indices
 
 <script src="https://gist.github.com/plang85/8ab00751dbc7a66cc3e477326392cd69.js"></script>
 
-Our training data setup and matrices
+where the features we provide are the production history and the stage array (zeros and ones for stage zero and one, respectively)
+of the production profiles. The targets which we train against is the entire production history of the profile (without the first
+value, but more on this later). We go on and define the training data setup and array layouts
 
 <script src="https://gist.github.com/plang85/23a8acee4ae83c87b6b831e3942b270e.js"></script>
 
@@ -52,7 +56,7 @@ Filling the arrays
 and produces this
 
 ![Training data]({{ site.url }}/assets/training_data.svg)
-
+*The generated training data. Not shown are the corresponding stage arrays.*
 
 Scaling, creates an implicit link with the activation function chosed for the dense operation on all LSTM units per time step
 
@@ -85,9 +89,8 @@ Epoch 9/10
 Epoch 10/10
 1960/1960 [==============================] - 2s - loss: 5.0730e-04 - val_loss: 4.3987e-04
 ```
-where a continuous residual reduction of three orders of magnitude indicates a well behaved model, and indeed our function generated above should be something that is easily regressed against.
-
-We can now use our model for prediction
+where a continuous residual reduction of three orders of magnitude indicates a well behaved model, and indeed the function generated above 
+should be something to easily regress against. We can now use our model for prediction
 
 <script src="https://gist.github.com/plang85/8722b3860b261a64816d40188193822b.js"></script>
 
@@ -109,7 +112,9 @@ upon inspection of the predicted target array in the stdout instruction we see t
 where the first entry is near out `NA` value, which reflects the way we set up our training sequences. This can now be plotted to illustrate the prediction based on the eight historic data points.
 
 ![Prediction]({{ site.url }}/assets/prediction_example.svg)
+*The predicion of our trained network given an initial production history.*
 
 We can visually inspect what the above value for loss on the validation set looks like
 
 ![Prediction vs reference]({{ site.url }}/assets/prediction_reference_example.svg)
+*Comparing the prediction to the reference history.*
