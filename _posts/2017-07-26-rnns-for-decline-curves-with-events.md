@@ -6,7 +6,7 @@ date:   2017-07-26
 categories: machine-learning neural-networks recurrent decline-curves fracking
 ---
 
-:construction: code complete, text and some auxilliary figures missing :construction:
+:construction: code and figures complete, text missing :construction:
 
 Decline curve modelling is arguably one of the least challenging problems to throw at neural networks these days. Since I'm all in for low hanging fruit, here goes a short write-up of a proof of concept implementation I recently demoed at a seminar. Proof of concept implementations are great since we don't have to put up with users and/or real data.
 
