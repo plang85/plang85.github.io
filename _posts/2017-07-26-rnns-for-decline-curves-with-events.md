@@ -44,26 +44,32 @@ Filling the arrays
 
 <script src="https://gist.github.com/plang85/2fbeff720b23e6141887fbbc508baf28.js"></script>
 
-and produces this
+The generated production profiles that go into our training data set look like this
 
 ![Training data]({{ site.url }}/assets/training_data.svg)
 *The generated training data. Not shown are the corresponding stage arrays.*
 
+For each of these profiles, we generate sequences for all time steps except the last one. Each progressing sequence has one more defined productino value. The corresponding target production is always the full profile, except for the first value which is `na`-encoded, since this value is part of all feature sequences.
+
 ![NA encoding 1]({{ site.url }}/assets/seq010_data.svg)
 *Illustration of `na` encoding in a sequence in our feature array.*
+
+If the above sequence is the 10th of a given production profile, the 30th would look like this
 
 ![NA encoding 2]({{ site.url }}/assets/seq030_data.svg)
 *Illustration of `na` encoding in a sample in our feature array, for a later sequence of the same profile.*
 
-It is good practice to normalize the feature arrays - this keeps the weights of the input layers around unity and aids convergence and numerical/FP stability. It is required to normalize the target arrays for a bounded activation in the output layer, like the `sigmoid` function we use. Scaling thus creates an implicit link with this activation. The scalers available in `sklearn.preprocessing` require a two-dimensional view of the underlying values, with samples as rows and each feature/target in its own column, so this view is exactly what we're gonna provide by flattening the time step dimension of our arrays:
+and so on until the next to last production value.
+
+It is good practice to normalize the feature arrays - this keeps the weights of the input layers closer to unity and aids convergence and numerical/FP stability. It is required to normalize the target arraysm if the activation of the output layer maps to a bounded interval, which is the case for the `sigmoid` function we use. Scaling thus creates an implicit link with this activation. The scalers available in `sklearn.preprocessing` require a two-dimensional view of the underlying values, with samples as rows and each feature/target in its own column, so this view is exactly what we provide by flattening the time step dimension of our arrays:
 
 <script src="https://gist.github.com/plang85/ad9f1bd7ba7dda5ddf6fb2874c85d35b.js"></script>
 
-Train the model, and instrument some hack to load a trained model for future quick predictions like you need when preparing graphs for a blog post or sth
+Let's train the model with some esoteric values for the number of epochs and batch size - just remember the a single profile has `num_timesteps - 1` sequences, so I would keep the `batch_size` here below that to get at least one weight update per profile. We add hack to load a trained model for future quick predictions and off we go.
 
 <script src="https://gist.github.com/plang85/c7d8f7969920d53f7092e07d2bd6f6ac.js"></script>
 
-You should see something along these lines
+Running the script you should see something along these lines (I'm on nothing fancy here, some ThinkPad on some i5 running Fedora, no GPU or what have you, also TF keeps telling me to recompile for the little extra instruction sets I have):
 
 ```
 1960/1960 [==============================] - 3s - loss: 0.0133 - val_loss: 0.0101
@@ -86,11 +92,12 @@ Epoch 9/10
 Epoch 10/10
 1960/1960 [==============================] - 2s - loss: 5.0730e-04 - val_loss: 4.3987e-04
 ```
-where a continuous residual reduction of three orders of magnitude indicates a well behaved model, and indeed the function generated above should be something to easily regress against. We can now use our model for prediction
+
+The continuous residual reduction is encouraging, as is the three orders of magnitude decrease in loss. This indicates a well behaved model, and indeed the function generated above should be something to easily regress against. We can now use our model for prediction
 
 <script src="https://gist.github.com/plang85/8722b3860b261a64816d40188193822b.js"></script>
 
-upon inspection of the predicted target array in the stdout instruction we see the predicted sequence
+Upon inspection of the de-normalized (remember the 2D view thing) target array, the prediction sequence should look like this:
 
 ```
 [-39.26998901  41.88949966  38.46153259  33.63489151  28.81029129
@@ -105,7 +112,7 @@ upon inspection of the predicted target array in the stdout instruction we see t
    0.96625328   0.90285933   0.8464036    0.79607713   0.75117487]
 ```
 
-where the first entry is near out `na` value, which reflects the way we set up our training sequences. This can now be plotted to illustrate the prediction based on the eight historic data points.
+Where the first entry is near out `na` value, which reflects the way we set up our training sequences. This can now be plotted to illustrate the prediction based on the eight historic data points.
 
 ![Prediction]({{ site.url }}/assets/prediction_example.svg)
 *The predicion of our trained network given an initial production history.*
