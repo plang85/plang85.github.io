@@ -8,27 +8,20 @@ categories: machine-learning neural-networks recurrent decline-curves fracking
 
 :construction: code complete, text and some auxilliary figures missing :construction:
 
-Decline curve modelling is arguably one of the least challenging problems to throw at neural networks these days. 
-Since I'm a sucker for low hanging fruit, here goes a short write-up of a proof of concept implementation I recently demoed at a seminar. 
-Proof of concept implementations are great since we don't have to put up with users and/or real data.
+Decline curve modelling is arguably one of the least challenging problems to throw at neural networks these days. Since I'm all in for low hanging fruit, here goes a short write-up of a proof of concept implementation I recently demoed at a seminar. Proof of concept implementations are great since we don't have to put up with users and/or real data.
 
-Shale wells are prime candidates for decline curve modelling. Refracking of a shale well, however, breaks the underlying assumption of 
-decline curve modelling: first order controls which govern the production history may not change during the forecast period. 
-Let's assume we have a set of production profiles like this, which we know for a fact to be representative:
+Shale wells are prime candidates for decline curve modelling. Refracking of a shale well, however, breaks the underlying assumption of decline curve modelling: first order controls which govern the production history may not change during the forecast period. Let's assume we have a set of production profiles like this, which we know for a fact to be representative:
 
 ![Refracking event]({{ site.url }}/assets/profile_example.svg)
-*An artificial production history with stage information (binary array here). We'll used profiles like these to train our network.*
+*An artificial production history with stage information (binary array here). We'll use profiles like these to train our network.*
 
 We see two stages, zero and one, where the stage transition indicates the point in time of refracking. 
 This post is about predicting the production profile given some initial production data and the planned 
-time of refrecking, which should allow for comparisons as to the economically most sensible point for refracturing, 
-for example. We'll be moving through this rather swiftly, without much regard for Python or Keras fundamentals 
-(yes, naturally we'll be using Keras here). Let's get to it then - we'll start with the import of some of the usual suspects:
+time of refrecking, which should allow for comparisons as to the economically most sensible point for refracturing, for example. We'll be moving through this rather swiftly, without much regard for Python or Keras fundamentals (yes, naturally we'll be using Keras here). Let's get to it then - we'll start with the import of some of the usual suspects:
 
 <script src="https://gist.github.com/plang85/5b63fbd837b608ac3e50583ac2de1b63.js"></script>
 
-where we also define a file name under which we'll save the trained model for fast predicitons, like when you're 
-making figures for a blog post. Next we define a function to produce a production profile like the one above:
+where we also define a file name under which we'll save the trained model for fast predicitons, like when you're making figures for a blog post. Next we define a function to produce a production profile like the one above:
 
 <script src="https://gist.github.com/plang85/845141802581bbad8117ade85b490883.js"></script>
 
@@ -43,9 +36,7 @@ step from all units. Let's be explicit about the layout of our little network an
 
 <script src="https://gist.github.com/plang85/8ab00751dbc7a66cc3e477326392cd69.js"></script>
 
-where the features we provide are the production history and the stage array (zeros and ones for stage zero and one, respectively)
-of the production profiles. The targets which we train against is the entire production history of the profile (without the first
-value, but more on this later). We go on and define the training data setup and array layouts
+where the features we provide are the production history and the stage array (zeros and ones for stage zero and one, respectively) of the production profiles. The targets which we train against is the entire production history of the profile (without the first value, but more on this later). We go on and define the training data setup and array layouts
 
 <script src="https://gist.github.com/plang85/23a8acee4ae83c87b6b831e3942b270e.js"></script>
 
@@ -57,6 +48,12 @@ and produces this
 
 ![Training data]({{ site.url }}/assets/training_data.svg)
 *The generated training data. Not shown are the corresponding stage arrays.*
+
+![NA encoding 1]({{ site.url }}/assets/seq010_data.svg)
+*Illustration of `NA` encoding in a sequence in our feature array.*
+
+![NA encoding 2]({{ site.url }}/assets/seq030_data.svg)
+*Illustration of `NA` encoding in a sample in our feature array, for a later sequence of the same profile.*
 
 Scaling, creates an implicit link with the activation function chosed for the dense operation on all LSTM units per time step
 
@@ -89,8 +86,7 @@ Epoch 9/10
 Epoch 10/10
 1960/1960 [==============================] - 2s - loss: 5.0730e-04 - val_loss: 4.3987e-04
 ```
-where a continuous residual reduction of three orders of magnitude indicates a well behaved model, and indeed the function generated above 
-should be something to easily regress against. We can now use our model for prediction
+where a continuous residual reduction of three orders of magnitude indicates a well behaved model, and indeed the function generated above should be something to easily regress against. We can now use our model for prediction
 
 <script src="https://gist.github.com/plang85/8722b3860b261a64816d40188193822b.js"></script>
 
