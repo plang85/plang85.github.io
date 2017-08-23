@@ -6,9 +6,9 @@ date:   2017-07-26
 categories: machine-learning neural-networks recurrent decline-curves fracking
 ---
 
-:construction: code and figures complete, text missing :construction:
+:construction: lacks decent explanation :construction:
 
-Decline curve modeling is arguably one of the least challenging problems to throw at neural networks these days. Since I'm all in for low hanging fruit, here goes a short write-up of a proof of concept implementation I recently demoed at a seminar. Proof of concept implementations are great since we don't have to put up with users and/or real data.
+Decline curve modeling is arguably one of the least challenging problems to throw at neural networks these days. So now that I've sufficiently lowered the bar, here goes a short write-up of a proof of concept implementation I recently demoed at a seminar. Proof of concept implementations are great since we don't have to put up with users and/or real data.
 
 Shale wells are prime candidates for decline curve modeling. Refracking of a shale well, however, breaks the underlying assumption of decline curve modeling: first order controls which govern the production history may not change during the forecast period. Let's assume we have a set of production profiles like this, which we know for a fact to be representative:
 
@@ -32,7 +32,7 @@ we'll use this function to generate training data for us. The model we are going
 <script src="https://gist.github.com/plang85/d0dab63233acc7775119283230c175c6.js"></script>
 
 where `kel.TimeDistributed(kel.Dense(num_targets))` forms a dense operation on the outputs for a single time
-step from all units. Let's be explicit about the layout of our little network and some convenience indices
+step from all units. In other words, it creates `num_timesteps` fully connected layers with `num_target = 1` neurons, each with `num_units` inputs/weights. Let's be explicit about the layout of our little network and some convenience indices
 
 <script src="https://gist.github.com/plang85/8ab00751dbc7a66cc3e477326392cd69.js"></script>
 
@@ -44,7 +44,7 @@ Filling the arrays
 
 <script src="https://gist.github.com/plang85/2fbeff720b23e6141887fbbc508baf28.js"></script>
 
-The generated production profiles that go into our training data set look like this
+The generated production profiles that form the basis for our feature and target arrays for our training data set look like this
 
 ![Training data]({{ site.url }}/assets/training_data.svg)
 *The generated training data. Not shown are the corresponding stage arrays.*
@@ -59,9 +59,9 @@ If the above sequence is the 10th of a given production profile, the 30th would 
 ![NA encoding 2]({{ site.url }}/assets/seq030_data.svg)
 *Illustration of `na` encoding in a sample in our feature array, for a later sequence of the same profile.*
 
-and so on until the next to last production value.
+and so on until the next to last production value. Each sample in a recurrent network training deck is in fact a sequence, with `num_timesteps` values per feature.
 
-It is good practice to normalize the feature arrays - this keeps the weights of the input layers closer to unity and aids convergence and numerical/FP stability. It is required to normalize the target arraysm if the activation of the output layer maps to a bounded interval, which is the case for the `sigmoid` function we use. Scaling thus creates an implicit link with this activation. The scalers available in `sklearn.preprocessing` require a two-dimensional view of the underlying values, with samples as rows and each feature/target in its own column, so this view is exactly what we provide by flattening the time step dimension of our arrays:
+Next it is good practice to normalize the feature arrays - this keeps the weights of the input layers closer to unity and thus aids convergence and somewhat mitigates FP rounding errors. It is required, however, to normalize the target arrays if the activation of the output layer maps to a bounded interval, which is the case for the `sigmoid` function we use. Our scaling is thus implicitly linked with the chosen activation, something to keep in mind and something that should be expressed more explictily in a proper application. The scalers available in `sklearn.preprocessing` require a two-dimensional view of the underlying values, with samples as rows and each feature/target as columns, so this view is exactly what we provide by flattening the time step dimension of our arrays:
 
 <script src="https://gist.github.com/plang85/ad9f1bd7ba7dda5ddf6fb2874c85d35b.js"></script>
 
