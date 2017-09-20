@@ -33,3 +33,9 @@ Even though for this trivial example it is obvious (hindsight 20:20) which split
 
 We need to make trade-offs explicit! Accuracy, 
 
+Since we solve iteratively, errors tend to propagate. Given above FP traits (ulp), and the ill conditioned nature of the systems we solve (starting values), convergence failures can show up only at later stages and be masked initally.
+
+Does that mean that all bets are off, we have and excuse to let our inner freebirds out, not care about correctness and revert to 16 bit precision? Of course it doesn't. We still need to verify against analytic solutions and we're still solving a discrete mathematical implementation of a concrete physical model. Also, in terms of precision, modern reservoir models push the boundaries of 64 bit precision already. It is the loss of precision issue that is very relevant there, with models that span well into the 100 km range in terms of absolute coordinate values, and at the same time using higher resolution, i.e. smaller cells. When we then compute geometric dependent properties the combination of the two poses challenges. There are approaches to address these problems, and we have to be vigilant for iteratively propagating errors when we design our tests during development.
+
+
+But we definitely can learn to focus on higher level traits rather than discrete results. We know when our non linear solutions converge.
