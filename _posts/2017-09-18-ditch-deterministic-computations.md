@@ -1,0 +1,35 @@
+---
+layout: post
+title:  "We need to ditch deterministic computation in reservoir simulation"
+subtitle:  "What numerical simulation frameworks can learn from neural network applications"
+date:   2017-09-18
+categories: opinion simulation
+---
+
+:construction: not nearly finished with this one :construction:
+
+I guess for this one I have to stress that opinions expressed here are my own, and that they do not necessarily allign with those of my employer. (People seem to do that - it must not be clear.)
+
+Much has been written about the futile effort to verify numerical models of subsurface processes (...), and the need to account for uncertainties using things like multi-realization frameworks (...). In short, it is thus very much accepted that simulation results for a single scenario/model/realization are not sufficient, a notion which is only added to when history-matched models are used, since it is known that for non linear problems adjoint solutions are not unique (...). 
+
+Also, any experienced reservoir engineer-geologist-geophycisist would never use a numerical simulation result of any sort be a single source of truth for anything.
+
+This sort of non-determinism, however, is not what I'm referring to. What I getting at is that if you run a single simulation with deterministic input, a deterministic output is expected. In other words, if a user runs the same simulation twice, she expects identical results.
+
+
+Why is this important? To a user, it would mean faster time to delivery of feature requests and cheaper software. This goes back to why it is important to developers:
+
+- Less time spent on branching for backward compatible behavior, reduced maintenance for these branches
+- Reduced regression testing effort (ie testing against changes in behavior)
+- Less bugs (ie introduced change in behaviour regressions didn't pick up)
+
+
+Let's look at some of the lengts that numerical applications
+
+<script src="https://gist.github.com/plang85/6ebe733325263fe7e80823d342d414dd.js"></script>
+
+
+Even though for this trivial example it is obvious (hindsight 20:20) which splitting strategy yields the more accurate operation, achieving thread invariance by adapting threading strategies is non-trivial for generic algorithms. That being said, it's done routinely in advanced parallel compute applicatins and libraries.
+
+We need to make trade-offs explicit! Accuracy, 
+
