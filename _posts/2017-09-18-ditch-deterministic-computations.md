@@ -10,7 +10,17 @@ categories: opinion simulation
 
 I guess for this one I have to stress that opinions expressed here are my own, and that they do not necessarily allign with those of my employer. (People seem to do that - it must not be clear.)
 
+In short, this is about changing our expectation of simulator results towards
+
+- relaxing expectations of repeatability of quantitative results
+- strengthen customer feedback to algorithm implementation
+- explicit trade offs of accuracy, performance and resolution
+
+not for the fundamental parts of the implementation (discretization, solver), but for implementation of the high-end features: parallelization strategies, high-end features etc...
+
 Much has been written about the futile effort to verify numerical models of subsurface processes (...), and the need to account for uncertainties using things like multi-realization frameworks (...). In short, it is thus very much accepted that simulation results for a single scenario/model/realization are not sufficient, a notion which is only added to when history-matched models are used, since it is known that for non linear problems adjoint solutions are not unique (...). 
+
+When you drive (are driven) in an auto piloted car, a customer doesn't care if the car decelerates at x msec-2 or 1.1x. What matters is comfort and safety. Now we won't be able to get there - simulators are supposed to produce numbers after all - but we should look over the fence and see if there's not something we can learn. This is hard since numbers we produce don't result in comfort or discomfort in the engineer (well sometimes they do I guess), but actually contribute to hard numbers that end up in reserve reports to trade government bodies. But maybe we can meet in the middle - produce numbers, realize they're not written in stone and focus on maximizing recovery, which is a more abstract goal that simulators definitely can contribute to.
 
 Also, any experienced reservoir engineer-geologist-geophycisist would never use a numerical simulation result of any sort be a single source of truth for anything.
 
