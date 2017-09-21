@@ -8,13 +8,21 @@ categories: opinion simulation
 
 :construction: not nearly finished with this one :construction:
 
-I guess for this one I have to stress that opinions expressed here are my own, and that they do not necessarily allign with those of my employer. (People seem to do that - it must not be clear.)
+I guess for this one I have to stress that opinions expressed here are my own, and that they do not necessarily represent those of my employer. (People seem to do that - it must not be clear.)
 
 In short, this is about changing our expectation of simulator results towards
 
 - relaxing expectations of repeatability of quantitative results
 - strengthen customer feedback to algorithm implementation
-- explicit trade offs of accuracy, performance and resolution
+- explicit trade offs of accuracy, performance and resolution and confidence/correctness, cost
+- distributed and fail safe
+
+- never rely on any notion of completeness of data
+- work on incomplete and unbounded data, windowing
+- realtime, always on (online learning), event time and processing time
+- when no data is coming in, iterate and refine simulation, when new data arrive, incorporate them fast into first order results
+- simulation is always running, improving results when no new data, incorporating new data fast into first order predictions
+- support data streams, real time data: leverage that things move slowly in reservoirs, but the amount of sensor data can be huge
 
 not for the fundamental parts of the implementation (discretization, solver), but for implementation of the high-end features: parallelization strategies, high-end features etc...
 
@@ -50,3 +58,5 @@ Does that mean that all bets are off, we have and excuse to let our inner freebi
 However, as models get more complex and feature combinations reach higher levels, implementation choices are far from straight forward and without right or wrong. We need to allow engineers to make these in an agile spirit - get something working, expose it to the customer, get feedback and improve. Reliying on simulator to reproduca past results on the dot puts the (unrealistic) burden on the implementer to get things right the first time. Even worse, it indirectly keeps people from looking into improving algorithms, since that would most certainly induce a change in behavior. This also impacts time to market since it puts pressure on engineers to get it right the first time - laboring under this illusion.
 
 But we definitely can learn to focus on higher level traits rather than discrete results. We know when our non linear solutions converge.
+
+I certainly believe in physics based simulation. It enables/makes possible to reason over results. Often when we use simulation this is actually more important than the numerical results themselves. We see and can trace back physical processes over time, which elevates our understanding of the system. I believe we can construct a framework that supports above points on top of existing simulation engines.
