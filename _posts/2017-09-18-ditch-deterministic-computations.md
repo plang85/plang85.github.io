@@ -51,6 +51,10 @@ Even though for this trivial example it is obvious (hindsight 20:20) which split
 
 We need to make trade-offs explicit! Accuracy, 
 
+Non-determinism is also related to eventual consistency, convergence and consensus finding. Distributed systems which incorporate distributed data may be in states of inconsistence, and consensus finding strategies may have non-deterministic outcomes, in particular if fault-tolerant systems are incorporated. So there may be times at which simulation output does not honor existing data inputs.
+
+In all, instead of locking down on to the numerical simulator as output, we need to elevate a level ourselves to a system in which the simulator has a role but is not the defining factor. 
+
 Since we solve iteratively, errors tend to propagate. Given above FP traits (ulp), and the ill conditioned nature of the systems we solve (starting values), convergence failures can show up only at later stages and be masked initally.
 
 Does that mean that all bets are off, we have and excuse to let our inner freebirds out, not care about correctness and revert to 16 bit precision? Of course it doesn't. We still need to verify against analytic solutions and we're still solving a discrete mathematical implementation of a concrete physical model. Also, in terms of precision, modern reservoir models push the boundaries of 64 bit precision already. It is the loss of precision issue that is very relevant there, with models that span well into the 100 km range in terms of absolute coordinate values, and at the same time using higher resolution, i.e. smaller cells. When we then compute geometric dependent properties the combination of the two poses challenges. There are approaches to address these problems, and we have to be vigilant for iteratively propagating errors when we design our tests during development.
