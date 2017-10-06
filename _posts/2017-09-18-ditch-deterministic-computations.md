@@ -1,14 +1,14 @@
 ---
 layout: post
-title:  "We need to ditch deterministic computation in reservoir simulation"
-subtitle:  "What numerical simulation frameworks can learn from neural network applications, and why we can't really be agile before then"
+title:  "The future of reservoir simulation"
+subtitle:  "What physics-based frameworks can learn from neural network applications, and why we can't really conquer agility before then"
 date:   2017-09-18
 categories: opinion simulation
 ---
 
 :construction: not nearly finished with this one :construction:
 
-I guess for this one I have to stress that opinions expressed here are my own, and that they do not necessarily represent those of my employer. (People seem to do that - it must not be clear.)
+I guess for this one I have to stress that opinions expressed here are my own, and that they do not necessarily represent those of my employer. (This must not be clear.)
 
 In short, this is about changing our expectation of simulator results towards
 
@@ -26,7 +26,9 @@ In short, this is about changing our expectation of simulator results towards
 
 not for the fundamental parts of the implementation (discretization, solver), but for implementation of the high-end features: parallelization strategies, high-end features etc...
 
-Much has been written about the futile effort to verify numerical models of subsurface processes (...), and the need to account for uncertainties using things like multi-realization frameworks (...). In short, it is thus very much accepted that simulation results for a single scenario/model/realization are not sufficient, a notion which is only added to when history-matched models are used, since it is known that for non linear problems adjoint solutions are not unique (...). 
+Too much already has been written about the futile effort to verify numerical models of subsurface processes (...), and the need to account for uncertainties using things like multi-realization frameworks (...). In short, it is thus very much accepted that simulation results for a single scenario/model/realization are not sufficient, a notion which is only added to when history-matched models are used, since it is known that for non linear problems adjoint solutions are not unique (...). In fact I don't believe any professional reserve booker will copy paste numeric values from a simulator output. I would leave it at this short paragraph to not dilute the point I'm trying to make in the core of this article, if it wasn't for [Naomi Oreskes'](http://science.sciencemag.org/content/263/5147/641) abstract which is one of the finest I've ever come accross, and I just want to have this here:
+
+> Verification and validation of numerical models of natural systems is impossible. This is because natural systems are never closed and because model results are always non- unique. Models can be confirmed by the demonstration of agreement between observation and prediction, but confirmation is inherently partial. Complete confirmation is logically precluded by the fallacy of affirming the consequent and by incomplete access to natural phenomena. Models can only be evaluated in relative terms, and their predictive value is always open to question. The primary value of models is heuristic
 
 When you drive (are driven) in an auto piloted car, a customer doesn't care if the car decelerates at x msec-2 or 1.1x. What matters is comfort and safety. Now we won't be able to get there - simulators are supposed to produce numbers after all - but we should look over the fence and see if there's not something we can learn. This is hard since numbers we produce don't result in comfort or discomfort in the engineer (well sometimes they do I guess), but actually contribute to hard numbers that end up in reserve reports to trade government bodies. But maybe we can meet in the middle - produce numbers, realize they're not written in stone and focus on maximizing recovery, which is a more abstract goal that simulators definitely can contribute to.
 
@@ -49,7 +51,7 @@ Let's look at some of the lengts that numerical applications
 
 Even though for this trivial example it is obvious (hindsight 20:20) which splitting strategy yields the more accurate operation, achieving thread invariance by adapting threading strategies is non-trivial for generic algorithms. That being said, it's done routinely in advanced parallel compute applicatins and libraries.
 
-We need to make trade-offs explicit! Accuracy, 
+We need to make trade-offs [explicit](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43864.pdf)! Accuracy, 
 
 Non-determinism is also related to eventual consistency, convergence and consensus finding. Distributed systems which incorporate distributed data may be in states of inconsistence, and consensus finding strategies may have non-deterministic outcomes, in particular if fault-tolerant systems are incorporated. So there may be times at which simulation output does not honor existing data inputs.
 
