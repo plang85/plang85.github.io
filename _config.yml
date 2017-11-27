@@ -1,4 +1,5 @@
 theme: jekyll-theme-tactile
-
+repository: plang85/plang85.github.io
+title_display: I try.
 plugins:
   - jemoji
