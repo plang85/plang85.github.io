@@ -16,7 +16,7 @@ While in conventional simulation we solve non-linear systems of equation in an i
 
 <div class="fig figcenter">
   <img src="/assets/ann-sim-iteration-singlepass.png" width="60%">
-  <div class="figcaption">Nope.</div>
+  <div class="figcaption">ANN-based approaches effectively factor out the non-linear part of the algorithm to a one-off process, leaving embarassingly parallel operations for the prediction/evaluation stage.</div>
 </div>
 
 These operations during evaluation is what make neural network approaches so attractive, for they cater to embarrasingly parallel implementations.
