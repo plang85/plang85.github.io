@@ -24,3 +24,5 @@ While in conventional simulation we solve non-linear systems of equation in an i
 </div>
 
 These operations during evaluation is what make neural network approaches so attractive, for they cater to embarrasingly parallel implementations.
+
+### Explicit trade-offs
