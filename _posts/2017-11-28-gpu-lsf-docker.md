@@ -54,5 +54,5 @@ sudo pkill -SIGHUP dockerd
 ### Submit
 [See this](https://hub.docker.com/r/philipplang/deeplearning/)
 ```
-docker run -it --rm --runtime=nvidia --mount type=bind,source=/xxx/yyy,target=/zzz/aaa /bin/bash -c "cd /zzz/aaa; python train.py"
+docker run --rm --runtime=nvidia --mount type=bind,source=/xxx/yyy,target=/zzz/aaa /bin/bash -c "cd /zzz/aaa; python train.py"
 ```
