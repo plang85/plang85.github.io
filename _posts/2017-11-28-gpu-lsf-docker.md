@@ -54,5 +54,15 @@ sudo pkill -SIGHUP dockerd
 ### Submit
 [See this](https://hub.docker.com/r/philipplang/deeplearning/)
 ```
-docker run --rm --runtime=nvidia --mount type=bind,source=/xxx/yyy,target=/zzz/aaa philipplang/deeplearning /bin/bash -c "cd /zzz/aaa; python train.py"
+#!/bin/bash
+#
+# LSF batch script to run Docker-Cuda neural network example
+#
+#BSUB -J mnist_example
+#BSUB -o mnist_example.out
+#BSUB -e mnist_example.err
+#BSUB -q "gpu02"
+#BSUB -m "abg-gpu02"
+
+docker run --runtime=nvidia --rm --mount type=bind,source=/xxx/yyy,target=/var/run philipplang/deeplearning /bin/bash -c "cd /var/run; python main.py"
 ```
