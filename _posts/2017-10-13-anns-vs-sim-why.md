@@ -18,7 +18,7 @@ I refer to physics based simulation as approaches that solve a set of governing 
 While in conventional simulation we solve non-linear systems of equation in an iterative manner during the prediction task, neural network approaches effectively factor out the compute-expensive non-linear part to a one-off training cost, leaving the prediction/evaluation process with a single forward pass of dot products and independent function evaluations.
 
 <div class="fig figcenter">
-  <img src="/assets/ann-sim-iteration-singlepass.png" width="60%">
+  <img src="/assets/Sim-ML-iterative.png" width="60%">
   <div class="figcaption">ANN-based approaches effectively factor out the non-linear part of the algorithm to a one-off process, leaving embarassingly parallel operations for the prediction/evaluation stage.</div>
 </div>
 
