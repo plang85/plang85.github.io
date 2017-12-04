@@ -36,3 +36,8 @@ If we increase `hidden_size` to `2`, the weight matris is expanded by another se
 </div>
 
 Now this is where I find the naming of `LSTMCell` a little misleading for people like me that are not as familiar with neural network lingo. `LSTMCell` contains an arbitrary set of independent LSTM cells, each with their own set of weights applied to the same input matrix. I guess the naming arises from the idea that this type is where the logic of long short term memory cells is contained (even thought internally it dispatches to the functional implementation, but that's an implementation detail). So this is how `LSTM` and `LSTMCell` complement each other - the former implements a stacked layer of cells implemented in the latter. I guess it is important to highlight that a `LSTMCell` instance implements as many LSTM units as are asked for in `hidden_size`.
+
+<div class="fig figcenter">
+  <img src="/assets/LSTMCell-inside-input.png" width="60%">
+  <div class="figcaption">The hidden_size of an LSTMCell stands for the number of LSTM units.</div>
+</div>
