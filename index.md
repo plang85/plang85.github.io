@@ -11,3 +11,6 @@ layout: index
     </li>
   {% endfor %}
 </ul>
+
+
+<center><i><br><br>I like to use sketches even though my handwriting is terrible. Also I stole the theme for this blog from Stanford.</i></center>
