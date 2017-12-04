@@ -31,7 +31,7 @@ To understand the meaning of `hidden_size` and how it relates to [this](http://k
 If we increase `hidden_size` to `2`, the weight matris is expanded by another set of `4 * input_size` weights.
 
 <div class="fig figcenter">
-  <img src="/assets/lstm-dot1.png" width="60%">
+  <img src="/assets/lstm-dot2.png" width="60%">
   <div class="figcaption">Increasing the hidden_size of the LSTMCell increases the weight matrix by another set of weights, which will be evaluated as separate LSTM unit.</div>
 </div>
 
