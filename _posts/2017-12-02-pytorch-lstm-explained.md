@@ -39,5 +39,19 @@ Now this is where I find the naming of `LSTMCell` a little misleading for people
 
 <div class="fig figcenter">
   <img src="/assets/LSTMCell-inside-input.png" width="60%">
-  <div class="figcaption">The hidden_size of an LSTMCell stands for the number of LSTM units.</div>
+  <div class="figcaption">The hidden_size of an LSTMCell stands for the number of LSTM units and thus the size of the output matrix.</div>
+</div>
+
+The weights for the hidden state as well as the hidden state are passed as inputs to the LSTMCell function from the LSTMCek type. Each LSTM unit implements the gating mechanism, which uses a cell state that is also provided as input, and reflects the number of units.
+
+<div class="fig figcenter">
+  <img src="/assets/LSTMCell-inside-output.png" width="60%">
+  <div class="figcaption">The output is a effectively a concatenation of all LSTM units, but implemented as matrix multiplication and independent function evals on elements.</div>
+</div>
+
+For a batch size larger than one, all matrices (input, hidden state/output, cell state) increase along the first axis (ie more rows), but the weight matrices remain the same size - they are being multiplied into all samples, thus the loss of the weights reflects an average over the batch size.
+
+<div class="fig figcenter">
+  <img src="/assets/LSTMCell-inside-output-fit.png" width="60%">
+  <div class="figcaption">The output includes the updated cell state along with the target hidden state, to be passed to the algorithm along with the next input in the sequence.</div>
 </div>
