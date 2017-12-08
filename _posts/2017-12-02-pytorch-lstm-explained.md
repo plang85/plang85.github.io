@@ -56,4 +56,36 @@ For a batch size larger than one, all matrices (input, hidden state/output, cell
   <div class="figcaption">The output includes the updated cell state along with the target hidden state, to be passed to the algorithm along with the next input in the sequence.</div>
 </div>
 
-The output denoted `Y` here is used as hidden state `h` for the next set of input `X` in the sequence, along with the updated cell state `c`.
+The output denoted `Y` here is used as hidden state `h` for the next set of input `X` in the sequence, along with the updated cell state `c`. This takes you through one pass over a LSTMCell, pretty much verbatim collected from different places in PyTorch, assuming no bias for simplicity:
+
+```
+batch_size = 5
+sequence_length = 10
+input_size = 2
+hidden_size = 4
+
+features = Variable(torch.randn(batch_size, input_size, sequence_length))
+
+h = Variable(torch.zeros(input_size, 4 * hidden_size))
+c = Variable(torch.zeros(input_size, 4 * hidden_size))
+
+weight_ih = Parameter(torch.randn(4 * hidden_size, input_size))
+weight_hh = Parameter(torch.randn(4 * hidden_size, hidden_size))
+
+for iseq in range(sequence_length):
+    input = features[:, :, iseq]
+
+    gates = input.matmul(weight_ih.t())  + hx.matmul(weight_hh.t())
+    ingate, forgetgate, cellgate, outgate = gates.chunk(4, 1)
+
+    ingate = F.sigmoid(ingate)
+    forgetgate = F.sigmoid(forgetgate)
+    cellgate = F.tanh(cellgate)
+    outgate = F.sigmoid(outgate)
+
+    # cell state for next input in sequence
+    c = (forgetgate * c) + (ingate * cellgate)
+    # output to next layer and/or hidden state for this layer
+    # for next input in sequence
+    y = h = outgate * F.tanh(c)
+```
