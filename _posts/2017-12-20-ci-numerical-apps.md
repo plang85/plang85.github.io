@@ -24,6 +24,6 @@ Input to physics based simulators consists of options and arbitrary numeric valu
 
 ## Pipelines
 
-They shouldn't be defined in the CI system. I know, you're probably thinking of GoCD and their nice interface, fanning and dependecies of individual steps and more. Remember that most CI and DevOps tools do not target our domain.
+They shouldn't be defined in the CI system. I know, you're probably thinking of GoCD and their nice interface, fanning and dependecies of individual steps and more. Remember that most CI and DevOps tools do not target our domain. The pipeline needs to be able to run on a dev's machine, it should not be defined in the CI system. Use Ansible or what have you.
 
 ... :construction:
