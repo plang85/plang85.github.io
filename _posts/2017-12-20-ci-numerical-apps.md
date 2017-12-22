@@ -26,6 +26,10 @@ Input to physics based simulators consists of options and arbitrary numeric valu
 
 They shouldn't be defined in the CI system. I know, you're probably thinking of GoCD and their nice interface, fanning and dependecies of individual steps and more. Remember that most CI and DevOps tools do not target our domain. The pipeline needs to be able to run on a dev's machine, it should not be defined in the CI system. Use Ansible or what have you.
 
+### Ansible
+
+Use Ansible for your pipelines. It's flexible, doesn't require worker node installations, works in Python (which is part of the main-stream stack in numerical applications), and because of it's SSH strategy works nicely with dumping jobs of to compute clusers/queuing systems.
+
 ## Bisection
 
 Long-running tests ('20') will necesserily test on an amalgamation of commits. Upon test failures, a bisection algorithm will be needed to find the culprit. This algorithm is aware of the VCS and the pipeline in question, that's it.
