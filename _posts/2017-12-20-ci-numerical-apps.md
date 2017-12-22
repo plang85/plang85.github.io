@@ -15,7 +15,6 @@ they may show pretty plots if so desired.
 - The pipeline needs to be implemented as an abstraction, so that arbitrary steps and success criteria can be implemented and plugged into the system.
 - Pipelines will contain steps of compilation, unit tests, regression tests, performance tests, you name it,
 - A bisection system needs to be implemented, which also works with the same pipeline abstraction.
-- Build infrastructure needs to go in containers.
 
 ## Challenges 
 
