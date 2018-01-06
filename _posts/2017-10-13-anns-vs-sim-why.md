@@ -24,4 +24,6 @@ While in conventional simulation we solve non-linear systems of equation in an i
 
 These operations during evaluation is what make neural network approaches so attractive, for they cater to embarrasingly parallel implementations.
 
+Another, more subtle, performance advantage lies in the [compute-bound](https://medium.com/@culurciello/computation-and-memory-bandwidth-in-deep-neural-networks-16cbac63ebd5) nature of neural network computation, as opposed to the dominant memory-bound nature observed in most PDE based applications.
+
 ### Explicit trade-offs
