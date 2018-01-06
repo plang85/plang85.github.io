@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Will artificial neural networks will overtake physics based simulation for reservoir performance forecasting?"
+title:  "Will artificial neural networks overtake physics based simulation for reservoir performance forecasting?"
 date:   2017-10-13
 categories: future neural-networks reservoir-forecast
 ---
