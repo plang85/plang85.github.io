@@ -21,7 +21,7 @@ they may show pretty plots if so desired.
 
 ### User input - the futile task of sanitization and whitelisting
 
-Input to physics based simulators consists of options and arbitrary numeric values in integer and floating point format. While we can sanitize these based on ranges of validity, *e.g.* physical constraints, and blacklist non-sensical combinations of options, *i.e.* combinations of algorithms known to cause issues, rigorous validation of input values and whitelisting of supported workflows seems out of reach. For all intents and purposes, the possible combinations of user input are infinite. This is in sharp contrast to web apps with graphical interfaces, which most of the currently developed CI tools target. There is no *happy path* in most numerical apps or libraries, there is only chaos. The user is exposed to the full wrath that is floating point arithemtic, non-linear algorithms, parallelization, iteration and so on. 
+Input to physics based simulators consists of options and arbitrary numeric values in integer and floating point format. While we can sanitize these based on ranges of validity, *e.g.* physical constraints, and blacklist non-sensical combinations of options, *i.e.* combinations of algorithms known to cause issues, rigorous validation of input values and whitelisting of supported workflows seems out of reach. For all intents and purposes, the number of possible combinations of user input is infinite. This is in sharp contrast to web apps with graphical interfaces, which most of the currently developed CI tools target. There is no *happy path* in most numerical apps or libraries, there is only chaos. The user is exposed to the full wrath that is floating point arithemtic, non-linear algorithms, parallelization, iteration and so on. 
 
 ### Parallelization
 
@@ -49,6 +49,6 @@ Long-running tests ('20') will necesserily test on an amalgamation of commits. U
 
 ## More on simulation applications
 
-Here scaling tests will be performed on changing spatial discretizations of the same physical objects. This requires special care in defining comparison functions, since reling on integrals/cumulatives can be a serious pitfall.
+Here scaling tests will be performed on changing spatial discretizations of the same physical objects. This requires special care in defining comparison functions, since relying on integrals/cumulatives can be a serious pitfall.
 
 ... :construction:
