@@ -15,7 +15,7 @@ they may show pretty plots if so desired.
 - The pipeline needs to be implemented as an abstraction, so that arbitrary steps and success criteria can be implemented and plugged into the system.
 - Pipelines will contain steps of unit tests, regression tests, performance tests, you name it. They receive the artifact on which to work on through a module, which in turn either builds from source (specific commit) or points to some location.
 - A bisection system needs to be implemented, which also works with the same pipeline abstraction.
-- Chose success criteria for regression tests wisely - this is where you earn your money, and what constrains any future development. Familiarize yourself with FP errros and time series comparison. Know what's important to your customers.
+- Chose success criteria for regression tests wisely - this is where you earn your money, and what constrains any future development. Really know FP errros, tolerances and time series comparison. Know what's important to your customers.
 
 ## Challenges 
 
