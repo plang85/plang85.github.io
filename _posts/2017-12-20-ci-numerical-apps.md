@@ -29,15 +29,18 @@ Floating point arithmetic is sensitive to partitioning - think workload splittin
 
 ## Pipelines
 
-They shouldn't be defined in the CI system. I know, you're probably thinking of GoCD and their nice interface, fanning and dependecies of individual steps and more. However, it is imperative that any pipeline can be run easily on a dev's machine. This means either duplication of pipeline steps, or definition of the pipeline outside of the CI system. I strongly recommend the latter, even though this probably incurrs a lessened user experience n the CI system. As benefits you will gain single source of truth value and much improved debugging and regression identification on the dev side.
+They shouldn't be defined in the CI system. I know, you're probably thinking of GoCD and their nice interface, fanning and dependecies of individual steps and more. However, it is imperative that any pipeline can be run easily on a dev's machine. This means either duplication of pipeline steps, or definition of the pipeline outside of the CI system. I strongly recommend the latter, even though this probably incurrs a lessened user experience in the CI system. As benefits you will gain single source of truth value and much improved debugging and regression diagnosis.
 
-### VCS
+### Implementation
 
-Pipelines must not to be aware of the version control system and the commit on which to work. Instead they will be injected the artifacts on which to work on in form of a module, this module can either build from scratch or use existing artifacts.
+I wish I could tell you here abaout a framework that ticks all the boxes to define continuous integration pipelines an run them locally and in a CI system. Unfortunately I'm not aware of any. Here is a selection of requirements we have for such a system:
+- cross platform, win and linux
+- knows how to retrieve commits from vcs
+- run build commands
+- run unittests
+- run cluster tests through ssh
 
-### Ansible
-
-Use Ansible for your pipelines. It's flexible, doesn't require worker node installations, works in Python (which is part of the main-stream stack in most numerical applications), and because of its SSH approach plays nicely with dumping jobs off to compute clusers/queuing system head nodes.
+Our approach is a self-cooked Python based pipeline system that reads yaml files and interprets steps using modules, similar to Ansible's concept, but focused on processes as opposed to states.
 
 ### Success criteria
 
