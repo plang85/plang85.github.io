@@ -46,6 +46,11 @@ Our approach is a self-cooked Python based pipeline system that reads yaml files
 
 The bad news here is that we can only screw this up. If defined too loosely, your customers will loose confidence in your product if their results change unacceptably (very subjective) every other update. If defined to tightly, you will end up living a OS kernel developers life under the no regression mantra, and seriosly impede agile approaches to development. It may increase the pressure to get things right the first time to unhealthy levels, and may stall development. It may lead to having maintain different options and implementation variants, which again will stall development pace through immense maintenance burden. Success criteria for CI tests have the potential to make or break your product and development approach.
 
+<div class="fig figcenter">
+  <img src="/assets/ci_hirarchy.png" width="60%">
+  <div class="figcaption">Interaction of CI systems with code and binaries. The only point of contact is through pipeline definitions, which typically consist of single files.</div>
+</div>
+
 ## Bisection
 
 Long-running tests ('20') will necesserily test on an amalgamation of commits. Upon test failures, a bisection algorithm will be needed to identify culprits. This search algorithm is aware of the VCS, to walk code versions, and the pipeline in question - that's it.
