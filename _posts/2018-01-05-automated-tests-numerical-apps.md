@@ -15,3 +15,4 @@ Automated tests come mostly in two forms, unit tests and regression tests. The f
 - Floating point arithmetic
 - Infinite combinations of user input
 
+Non-linear systems are notoriously more sensitive to small changes in distribution outliers than relatively larger shifts in the mean.
