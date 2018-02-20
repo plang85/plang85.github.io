@@ -40,7 +40,9 @@ I wish I could tell you here abaout a framework that ticks all the boxes to defi
 - run unittests
 - run cluster tests through ssh
 
-Our approach is a self-cooked Python based pipeline system that reads yaml files and interprets steps using modules, similar to Ansible's concept, but focused on processes as opposed to states.
+Ideally the CI system of your choice supports pipeline definition in some standardized file format like yaml. In this case, it's often easy to write a helper to run the same instructions locally. If not, shell scripts are the way to go, with ideally a single call from the CI system.
+
+If building on Linux, use `ninja` instead of `make`, if only for the advantage of not having to specify the number of jobs to run in parallel. This will make swapping agents and playing with different instaces on cloud VMs easier.
 
 ### Success criteria
 
