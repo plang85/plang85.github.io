@@ -58,7 +58,7 @@ Long-running tests ('20') will necesserily test on an amalgamation of commits. U
 ## General points
 If building on Linux, use `ninja` instead of `make`, if only for the advantage of not having to specify the number of jobs to run in parallel. This will make swapping agents and playing with different instaces on cloud VMs easier.
 
-Put nothing in path, make all resources to be used explicit.
+Put nothing in path, make all resources to be used explicit. Always prefer configuration files over environment variable. If a build/test setting is not under version control in sync with the source code, results loos reproducability and also loose their ephemeral nature, i.e. they start to be tightly coupled with the environment.
 
 ## More on simulation applications
 
