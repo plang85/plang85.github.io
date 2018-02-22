@@ -51,6 +51,8 @@ The bad news here is that we can only screw this up. If defined too loosely, you
   <div class="figcaption">Interaction of CI systems with code and binaries. The only point of contact is through pipeline definitions, which typically consist of single files.</div>
 </div>
 
+Prefer qualitative criteria over quantitative ones as much as you can afford it, *e.g.* does the algorithm converge as opposed to does the algorithm converge to this and that value plus minus tolerances. More often than not this won't be an option, but it should be the starting point imo.
+
 ## Bisection
 
 Long-running tests ('20') will necesserily test on an amalgamation of commits. Upon test failures, a bisection algorithm will be needed to identify culprits. This search algorithm is aware of the VCS, to walk code versions, and the pipeline in question - that's it.
