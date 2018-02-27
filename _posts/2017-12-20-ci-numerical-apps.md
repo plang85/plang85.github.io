@@ -67,3 +67,8 @@ Put nothing in path, make all resources to be used explicit. Always prefer confi
 Here scaling tests will be performed on changing spatial discretizations of the same physical objects. This requires special care in defining comparison functions, since relying on integrals/cumulatives can be a serious pitfall.
 
 ... :construction:
+
+# Closing thoughts
+
+[Technical dept of ML systems](https://research.google.com/pubs/pub43146.html):
+> Unit testing of individual components and end-to-end tests of running systems are valuable, but in the face of a changing world such tests are not sufficient to provide evidence that a system is working as intended. Live monitoring of system behavior in real time is critical
