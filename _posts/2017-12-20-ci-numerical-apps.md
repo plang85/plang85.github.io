@@ -29,7 +29,7 @@ Floating point arithmetic is sensitive to partitioning - think workload splittin
 
 ## Pipelines
 
-They shouldn't be defined in the CI system. I know, you're probably thinking of GoCD and their nice interface, fanning and dependecies of individual steps and more. However, it is imperative that any pipeline can be run easily on a dev's machine. This means either duplication of pipeline steps, or definition of the pipeline outside of the CI system. I strongly recommend the latter, even though this probably incurrs a lessened user experience in the CI system. As benefits you will gain single source of truth value and much improved debugging and regression diagnosis.
+It is imperative that any pipeline can be run on a dev's machine and that its definition is under version control.
 
 ### Implementation
 
